@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8FAA984-5F01-4E5D-A479-7B7F651C6C97}</ProjectGuid>
+    <ProjectGuid>{388E53C0-C573-44A8-A6D3-FABC92614D3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CentralServices</RootNamespace>
-    <AssemblyName>CentralServices</AssemblyName>
+    <RootNamespace>CenterRepository</RootNamespace>
+    <AssemblyName>CenterRepository</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,31 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompanyService.cs" />
-    <Compile Include="EmployeeService.cs" />
-    <Compile Include="Service.cs" />
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="ClientRepository.cs" />
+    <Compile Include="EmployeeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CenterEntities\CenterEntities.csproj">
-      <Project>{b8d1acb4-3c2c-4932-81f3-f73f1c471fd0}</Project>
+      <Project>{B8D1ACB4-3C2C-4932-81F3-F73F1C471FD0}</Project>
       <Name>CenterEntities</Name>
     </ProjectReference>
     <ProjectReference Include="..\CenterIRepository\CenterIRepository.csproj">
       <Project>{bc5ce56c-d6da-42a5-bf16-525ab608b80d}</Project>
       <Name>CenterIRepository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CenterIService\CenterIService.csproj">
-      <Project>{4ae712da-f9c6-478c-bc08-23828d8029bb}</Project>
-      <Name>CenterIService</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

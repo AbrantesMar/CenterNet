@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CenterIService</RootNamespace>
     <AssemblyName>CenterIService</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +46,16 @@
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CenterEntities\CenterEntities.csproj">
+      <Project>{b8d1acb4-3c2c-4932-81f3-f73f1c471fd0}</Project>
+      <Name>CenterEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CenterIRepository\CenterIRepository.csproj">
+      <Project>{bc5ce56c-d6da-42a5-bf16-525ab608b80d}</Project>
+      <Name>CenterIRepository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,8 @@
-﻿namespace CenterIService
+﻿using CenterEntities;
+
+namespace CenterIService
 {
-    public class IClientService
+    public interface IClientService : IService<Client>
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CenterIRepositories
+namespace CenterIRepository
 {
     public interface IBaseRepository<T> where T : class
     {
@@ -11,5 +11,4 @@ namespace CenterIRepositories
         void Remove(T obj);
         void Dispose();
     }
-
 }
