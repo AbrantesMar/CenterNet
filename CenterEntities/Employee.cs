@@ -7,12 +7,14 @@ namespace CenterEntities
         //TODO: vai de 1 a 5  
         public int PLevel { get; set; }
         
-        public DateTime BirthYear { get; set; }
+        public int BirthYear { get; set; }
 
-        public DateTime AdmissionYear { get; set; }
+        public int AdmissionYear { get; set; }
 
         //TODO: Colocar validação que se o empregado nunca recebeu uma promoção, colocar data de adimissão  
-        public DateTime LastProgressionYear { get; set; }
+        public int LastProgressionYear { get; set; }
+
+        public Client Client { get; set; }
 
  
     }

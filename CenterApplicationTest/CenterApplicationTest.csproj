@@ -49,6 +49,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CenterEntities\CenterEntities.csproj">
+      <Project>{b8d1acb4-3c2c-4932-81f3-f73f1c471fd0}</Project>
+      <Name>CenterEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CenterIService\CenterIService.csproj">
+      <Project>{4ae712da-f9c6-478c-bc08-23828d8029bb}</Project>
+      <Name>CenterIService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

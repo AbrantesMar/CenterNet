@@ -9,6 +9,11 @@ namespace CentralServices
     {
         private readonly IBaseRepository<T> _repository;
 
+        public Service(IBaseRepository<T> repository)
+        {
+            _repository = repository;
+        }
+
         public void Add(T param)
         {
             _repository.Add(param);

@@ -6,5 +6,6 @@ namespace CenterEntities
     {
         public List<Client> Clientes { get; set; }
         public Time Time { get; set; }
+        public int FiscalYear { get; set; }
     }
 }

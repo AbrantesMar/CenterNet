@@ -4,21 +4,33 @@ using System;
 using System.Collections.Generic;
 
 namespace CentralServices
-{
+{   
     public class EmployeeService : Service<Employee>
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly Employee _employee;
+        private Employee _employee;
 
-        public Employee Progression(List<Employee> employees)
+        public EmployeeService(IEmployeeRepository employeeRepository) => _employeeRepository = employeeRepository;
+
+        public List<Employee> Progression(List<Employee> employees, int quantityProgresso)
         {
-            //List<Employee> _employee = _employeeRepository.GetAll();
-            //if()
-            //TODO: add logica para progressão
-
-            bubbleSort(employees);
-
-            return null;
+            List<Employee> employeesProgress = BubbleSort(employees);
+            List<Employee> employeesProgressValids = new List<Employee>();
+            if (employeesProgress.Count <= quantityProgresso)
+            {
+                for (int i = 0, count = quantityProgresso; i < count; i++)
+                {
+                    _employee = employeesProgress[i];
+                    if (GetIsTimeInCompanyMin())
+                    {
+                        employeesProgressValids.Add(_employee);
+                    }
+                }
+            }else
+            {
+                //Valida que a quantidade de pessoas que querem promover não tem disponivel para a quantidade de funcionarios aptos a promoção.
+            }
+            return employeesProgressValids;
         }
 
         public List<Employee> GetEmployeeInCompany(int company)
@@ -32,9 +44,9 @@ namespace CentralServices
 
         }
 
-        public static List<Employee> bubbleSort(List<Employee> vetor)
+        public static List<Employee> BubbleSort(List<Employee> employees)
         {
-            int lenght = vetor.Count;
+            int lenght = employees.Count;
             int comparation = 0;
 
             for (int i = lenght - 1; i >= 1; i--)
@@ -42,16 +54,16 @@ namespace CentralServices
                 for (int j = 0; j < i; j++)
                 {
                     comparation++;
-                    if (vetor[j].PLevel > vetor[j + 1].PLevel)
+                    if (employees[j].PLevel < employees[j + 1].PLevel)
                     {
-                        Employee aux = vetor[j];
-                        vetor[j] = vetor[j + 1];
-                        vetor[j + 1] = aux;
+                        Employee aux = employees[j];
+                        employees[j] = employees[j + 1];
+                        employees[j + 1] = aux;
                     }
                 }
             }
 
-            return vetor;
+            return employees;
         }
 
 
@@ -60,9 +72,18 @@ namespace CentralServices
             return PointOfCompany + GetPointOfProgression() + GetPointOfAge();
         }
 
+        private bool GetIsTimeInCompanyMin()
+        {
+            if (GetIsValidateToProgress())
+            {
+                return !(GetIsTimeValideCompany() < 2 && _employee.PLevel == 4);
+            }
+            return false;
+        }
+
         private int GetPointOfAge()
         {
-            int age = DateTime.Now.Year - _employee.BirthYear.Year;
+            int age = DateTime.Now.Year - _employee.BirthYear;
             return age % 5;
         }
 
@@ -76,13 +97,8 @@ namespace CentralServices
 
         private int GetIsTimeValideCompany()
         {
-            int quantityYearsInCompany = DateTime.Now.Year - _employee.AdmissionYear.Year;
+            int quantityYearsInCompany = DateTime.Now.Year - _employee.AdmissionYear;
             return quantityYearsInCompany;
-        }
-
-        private bool GetIsTimeInCompanyMin()
-        {
-            return !(GetIsTimeValideCompany() < 2 && _employee.PLevel == 4);
         }
 
         public bool GetIsValidateToProgress()
