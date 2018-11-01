@@ -10,7 +10,7 @@ namespace CentralServices
         private readonly IEmployeeRepository _employeeRepository;
         private Employee _employee;
 
-        public EmployeeService(IEmployeeRepository employeeRepository) => _employeeRepository = employeeRepository;
+        public EmployeeService(IEmployeeRepository employeeRepository, IBaseRepository<Employee> repository) : base(repository) => _employeeRepository = employeeRepository;
 
         public List<Employee> Progression(List<Employee> employees, int quantityProgresso)
         {
@@ -91,7 +91,7 @@ namespace CentralServices
 
         private int GetPointOfProgression()
         {
-            int timeOfProgression = DateTime.Now.Year - _employee.LastProgressionYear.Year;
+            int timeOfProgression = DateTime.Now.Year - _employee.LastProgressionYear;
             return timeOfProgression % 3;
         }
 

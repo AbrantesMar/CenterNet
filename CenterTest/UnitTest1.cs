@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using CenterEntities;
 using CenterIService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +8,7 @@ namespace CenterTest
     [TestClass]
     public class UnitTest1
     {
-        private static IEmployeeService _employeeService;
+        //private static IEmployeeService _employeeService;
         private static IClientService _clientService;
         public List<Employee> employeer;
 
@@ -125,4 +125,4 @@ namespace CenterTest
             });
         }
     }
-}
+}*/

@@ -1,4 +1,5 @@
 ﻿using CenterEntities;
+using CenterIRepository;
 using CenterIService;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ namespace CentralServices
 
         public Client Time;
 
-        public ClientService()
+        public ClientService(IBaseRepository<Client> repository) : base(repository)
         {
             Time = new Client();
         }
@@ -18,7 +19,7 @@ namespace CentralServices
         {
             List<Employee> possibility = new List<Employee>();
             int factor = 0;
-            for (int i = 0; i < employeesInBench.Count; i++)
+            for (int i = 0, count = employeesInBench.Count; i < count; i++)
             {
                 if(Time.MinMaturity < employeesInBench[i].PLevel && Time.MaxMaturity > employeesInBench[i].PLevel)
                 {

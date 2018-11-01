@@ -1,4 +1,5 @@
 ﻿using CenterEntities;
+using CenterIRepository;
 using CenterIService;
 using System.Collections.Generic;
 
@@ -9,7 +10,8 @@ namespace CentralServices
         private readonly IEmployeeService _employeeService;
         private Employee Employee { get; set; }
 
-        public CompanyService(IEmployeeService employeeService)
+        public CompanyService(IEmployeeService employeeService
+                               , IBaseRepository<Company> repository) : base(repository)
         {
             _employeeService = employeeService;
         }
