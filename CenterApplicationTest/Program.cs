@@ -6,13 +6,13 @@ namespace CenterApplicationTest
 {
     class Program
     {
-        //private static IEmployeeService _employeeService;
         static void Main(string[] args)
         {
             List<Employee> employeers = new List<Employee>()
             {
                 new Employee
                 {
+                    Id = 1,
                     Description = "Diego",
                     PLevel = 3,
                     BirthYear = 1991,
@@ -21,6 +21,7 @@ namespace CenterApplicationTest
                 },
                 new Employee
                 {
+                    Id = 2,
                     Description = "Lucas",
                     PLevel = 4,
                     BirthYear = 1990,
@@ -29,22 +30,25 @@ namespace CenterApplicationTest
                 },
                 new Employee
                 {
+                    Id = 3,
                     Description = "Luciano",
-                    PLevel = 1,
+                    PLevel = 2,
                     BirthYear = 1979,
                     AdmissionYear = 2011,
                     LastProgressionYear = 2013
                 },
                 new Employee
                 {
+                    Id = 4,
                     Description = "Luiz",
-                    PLevel = 4,
+                    PLevel = 5,
                     BirthYear = 1980,
                     AdmissionYear = 2005,
                     LastProgressionYear = 2014
                 },
                 new Employee
                 {
+                    Id = 5,
                     Description = "Daniel",
                     PLevel = 2,
                     BirthYear = 1989,
@@ -53,6 +57,7 @@ namespace CenterApplicationTest
                 },
                 new Employee
                 {
+                    Id = 6,
                     Description = "José Carlos",
                     PLevel = 2,
                     BirthYear = 1994,
@@ -61,6 +66,7 @@ namespace CenterApplicationTest
                 },
                 new Employee
                 {
+                    Id = 7,
                     Description = "Felipe",
                     PLevel = 3,
                     BirthYear = 1976,
@@ -100,35 +106,95 @@ namespace CenterApplicationTest
                         }
                     }
             };
-            List<Client> clientes = company.Clientes;
+
+            FormulateTime(company.Clientes, employeers);
+
+            foreach (var client in company.Clientes)
+            {
+                System.Text.StringBuilder strDescription = new System.Text.StringBuilder()
+                                                                        .Append(client.Description)
+                                                                        .Append("   -   LevelTime: ")
+                                                                        .Append(client.MinMaturity)
+                                                                        .Append(" --- Maturidade: ")
+                                                                        .Append(client.MaxMaturity)
+                                                                        .Append(" - ")
+                                                                        .Append(client.EmployeesCount);
+                System.Console.WriteLine(strDescription.ToString());
+                foreach (var time in client.Time)
+                {
+                    System.Console.WriteLine("  - " + time.Description + " - Level: " + time.PLevel);
+                }
+            }
+            System.Console.ReadLine();
+        }
+
+        private static void FormulateTime(List<Client> clientes, List<Employee> employeers)
+        {
+            List<Employee> employees = employeers;
+            List<int> empId = new List<int>();
             for (int i = 0, clientCount = clientes.Count - 1; i <= clientCount; clientCount--)
             {
                 Client client = clientes[clientCount];
-                for (int j = 0; j < employeers.Count; j++)
+                for (int j = 0; j < employees.Count; j++)
                 {
+                    Employee employee = employees[j];
+                    if (empId.Contains(employee.Id))
+                        continue;
                     if (client.Time.Count > 0)
                     {
-                        if (Validate(employeers[j].PLevel, client.MinMaturity, client.EmployeesCount, clientCount, (i + 1)))
+                        if (ValidateMaturity(employee.PLevel, client.MinMaturity, client.EmployeesCount, clientCount))
                         {
-                            client.Time.Add(employeers[j]);
-                            employeers.Remove(employeers[j]);
+                            TimeAdd(employee, employees, client.Time, empId);
+                            j = j - 1;
                         }
+                        else if (client.EmployeesCount <= 0)  break;
                     }
-                    else if(employeers[j].PLevel <= client.MinMaturity)
+                    else if (employee.PLevel <= client.MinMaturity || (employee.PLevel >= client.MinMaturity && clientCount == 0))
                     {
-                        client.Time.Add(employeers[j]);
-                        employeers.Remove(employeers[j]);
+                        TimeAdd(employee, employees, client.Time, empId);
+                        j = j - 1;
                     }
                 }
                 clientes[clientCount] = client;
             }
-            company.Clientes = clientes;
-            System.Console.ReadLine();
         }
 
-        public static bool Validate(int level, int minMaturity, int employeesCount, int clientCount, int position)
+        public static void TimeAdd(Employee employee, List<Employee> employees, List<Employee> time, List<int> empId)
         {
-            return ((level <= (minMaturity - employeesCount)) || clientCount == (position + 1));
+            time.Add(employee);
+            empId.Add(employee.Id);
+            employees.Remove(employee);
+        }
+
+        public static bool ValidateMaturity(int level, int minMaturity, int employeesCount, int clientCount)
+        {
+            bool toBack = false;
+            if(level == employeesCount)
+            {
+                toBack = true;
+            }
+            else if(level > employeesCount && clientCount == 0){
+                toBack = true;
+            }
+            return toBack;
+        }
+
+        public static void MergeTime(List<Client> clients)
+        {
+            Client seniorClient = new Client();
+            Client seniorForEmployee = new Client();
+            Employee jrEmp = new Employee();
+            Employee seniorEmp = new Employee();
+
+            clients.Sort((x, y) => x.MaxMaturity.CompareTo(y.MaxMaturity));
+            seniorForEmployee = clients[0];
+
+            clients[0].Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+            jrEmp = clients[0].Time[0];
+
+            clients.Sort((x, y) => x.MinMaturity.CompareTo(y.MinMaturity));
+            seniorClient = clients[clients.Count - 1];
+            
         }
         
     }
