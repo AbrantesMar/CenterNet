@@ -59,6 +59,10 @@
       <Project>{4ae712da-f9c6-478c-bc08-23828d8029bb}</Project>
       <Name>CenterIService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CentralServices\CentralServices.csproj">
+      <Project>{d8faa984-5f01-4e5d-a479-7b7f651c6c97}</Project>
+      <Name>CentralServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

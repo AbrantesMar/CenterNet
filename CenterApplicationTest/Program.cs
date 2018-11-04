@@ -1,5 +1,6 @@
 ﻿using CenterEntities;
 using CenterIService;
+using System;
 using System.Collections.Generic;
 
 namespace CenterApplicationTest
@@ -32,7 +33,7 @@ namespace CenterApplicationTest
                 {
                     Id = 3,
                     Description = "Luciano",
-                    PLevel = 2,
+                    PLevel = 1,
                     BirthYear = 1979,
                     AdmissionYear = 2011,
                     LastProgressionYear = 2013
@@ -41,7 +42,7 @@ namespace CenterApplicationTest
                 {
                     Id = 4,
                     Description = "Luiz",
-                    PLevel = 5,
+                    PLevel = 4,
                     BirthYear = 1980,
                     AdmissionYear = 2005,
                     LastProgressionYear = 2014
@@ -108,7 +109,7 @@ namespace CenterApplicationTest
             };
 
             FormulateTime(company.Clientes, employeers);
-
+            MergeRevert(company.Clientes);
             foreach (var client in company.Clientes)
             {
                 System.Text.StringBuilder strDescription = new System.Text.StringBuilder()
@@ -122,10 +123,19 @@ namespace CenterApplicationTest
                 System.Console.WriteLine(strDescription.ToString());
                 foreach (var time in client.Time)
                 {
-                    System.Console.WriteLine("  - " + time.Description + " - Level: " + time.PLevel);
+                    Console.WriteLine("  - " + time.Description + " - Level: " + time.PLevel);
                 }
             }
-            System.Console.ReadLine();
+            Console.ReadLine();
+        }
+        public void Telas()
+        {
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
         }
 
         private static void FormulateTime(List<Client> clientes, List<Employee> employeers)
@@ -179,22 +189,121 @@ namespace CenterApplicationTest
             return toBack;
         }
 
-        public static void MergeTime(List<Client> clients)
+        public static void MergeRevert(List<Client> clients)
         {
             Client seniorClient = new Client();
-            Client seniorForEmployee = new Client();
+            Client jrClient = new Client();
             Employee jrEmp = new Employee();
             Employee seniorEmp = new Employee();
+            clients.Sort((x, y) => x.EmployeesCount.CompareTo(y.EmployeesCount));
 
-            clients.Sort((x, y) => x.MaxMaturity.CompareTo(y.MaxMaturity));
-            seniorForEmployee = clients[0];
+            for (int i = 0, count = clients.Count, backCount = clients.Count - 1; i < clients.Count; i++)
+            {
+                Client client = clients[i];
+                if (i != backCount)
+                {
+                    Client clientNext = clients[i + 1];
+                    if (client.EmployeesCount < 0)
+                    {
+                        if (client.MinMaturity > clientNext.MinMaturity)
+                        {
+                            client.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                            seniorEmp = clientNext.Time[0];
+                            jrEmp = client.Time[client.Time.Count - 1];
 
-            clients[0].Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
-            jrEmp = clients[0].Time[0];
+                            client.Time.Remove(jrEmp);
+                            clientNext.Time.Remove(seniorEmp);
+                            client.Time.Add(seniorEmp);
+                            clientNext.Time.Add(jrEmp);
+                        }
+                        else
+                        {
+                            client.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                            clientNext.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                            //seniorEmp = client.Time[0];
+                            jrEmp = client.Time[client.Time.Count - 1];
+
+                            //client.Time.Remove(jrEmp);
+                            client.Time.Remove(jrEmp);
+                            clientNext.Time.Add(jrEmp);
+                        }
+                    }
+                    else
+                    {
+                        if(i > 0)
+                        {
+                            Client clientBack = clients[i - 1];
+                            if(client.MinMaturity > clientBack.MinMaturity && client.EmployeesCount < clientBack.MinMaturity)
+                            {
+                                clientBack.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                                //seniorEmp = clientNext.Time[0];
+                                jrEmp = clientBack.Time[0];
+
+                                // client.Time.Remove(jrEmp);
+                                clientBack.Time.Remove(seniorEmp);
+                                client.Time.Add(seniorEmp);
+                                //clientNext.Time.Add(jrEmp);
+                            }
+                        }
+                    }
+                    clients[i] = client;
+                    clients[i + 1] = clientNext;
+                }
+                else
+                {
+                    Client clientNext = clients[i - 1];
+                    if (client.EmployeesCount < 0)
+                    {
+                        if (client.MinMaturity > clientNext.MinMaturity)
+                        {
+                            client.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                            clientNext.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                            //seniorEmp = client.Time[0];
+                            jrEmp = client.Time[0];
+
+                            //client.Time.Remove(jrEmp);
+                            client.Time.Remove(jrEmp);
+                            clientNext.Time.Add(jrEmp);
+                            //clientNext.Time.Add(jrEmp);
+                        }
+                    }
+                    else
+                    {
+                        client.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                        clientNext.Time.Sort((x, y) => x.PLevel.CompareTo(y.PLevel));
+                        //seniorEmp = client.Time[0];
+                        jrEmp = clientNext.Time[clientNext.Time.Count - 1];
+
+                        //client.Time.Remove(jrEmp);
+                        clientNext.Time.Remove(jrEmp);
+                        client.Time.Add(jrEmp);
+                        //clientNext.Time.Add(jrEmp);
+                    }
+                    clients[i] = client;
+                    clients[i - 1] = clientNext;
+                }
+            }
 
             clients.Sort((x, y) => x.MinMaturity.CompareTo(y.MinMaturity));
-            seniorClient = clients[clients.Count - 1];
-            
+            for (int i = 0; i < clients.Count; i++)
+            {
+                if ((i > 0) && (i <= (clients.Count - 2)))
+                {
+                    if (clients[i].MinMaturity > clients[i + 1].MinMaturity && ((clients[i].EmployeesCount > clients[i + 1].EmployeesCount) || (clients[i].EmployeesCount > clients[i - 1].EmployeesCount))) MergeRevert(clients);
+                    else if (!(clients[i].MinMaturity > clients[i + 1].MinMaturity) && ((clients[i].EmployeesCount < clients[i + 1].EmployeesCount)))
+                    {
+                        MergeRevert(clients);
+                    }
+                }
+                else if(i == 0)
+                {
+                    if (!(clients[i].MinMaturity > clients[i + 1].MinMaturity) && ((clients[i].EmployeesCount > clients[i + 1].EmployeesCount)))
+                    {
+                        MergeRevert(clients);
+                    }
+                }
+
+            }
         }
         
     }

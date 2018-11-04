@@ -1,5 +1,6 @@
 ﻿using CenterEntities;
 using CenterIRepository;
+using CenterIService;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace CentralServices
         private Employee _employee;
 
         public EmployeeService(IEmployeeRepository employeeRepository, IBaseRepository<Employee> repository) : base(repository) => _employeeRepository = employeeRepository;
-
+        
         public List<Employee> Progression(List<Employee> employees, int quantityProgresso)
         {
             List<Employee> employeesProgress = BubbleSort(employees);
@@ -104,6 +105,78 @@ namespace CentralServices
         public bool GetIsValidateToProgress()
         {
             return GetIsTimeValideCompany() > 1;
+        }
+
+        public static List<Employee> GetEmployees()
+        {
+            List<Employee> employeers = new List<Employee>()
+            {
+                new Employee
+                {
+                    Id = 1,
+                    Description = "Diego",
+                    PLevel = 3,
+                    BirthYear = 1991,
+                    AdmissionYear = 2011,
+                    LastProgressionYear = 2015
+                },
+                new Employee
+                {
+                    Id = 2,
+                    Description = "Lucas",
+                    PLevel = 4,
+                    BirthYear = 1990,
+                    AdmissionYear = 2012,
+                    LastProgressionYear = 2017
+                },
+                new Employee
+                {
+                    Id = 3,
+                    Description = "Luciano",
+                    PLevel = 1,
+                    BirthYear = 1979,
+                    AdmissionYear = 2011,
+                    LastProgressionYear = 2013
+                },
+                new Employee
+                {
+                    Id = 4,
+                    Description = "Luiz",
+                    PLevel = 4,
+                    BirthYear = 1980,
+                    AdmissionYear = 2005,
+                    LastProgressionYear = 2014
+                },
+                new Employee
+                {
+                    Id = 5,
+                    Description = "Daniel",
+                    PLevel = 2,
+                    BirthYear = 1989,
+                    AdmissionYear = 2013,
+                    LastProgressionYear = 2015
+                },
+                new Employee
+                {
+                    Id = 6,
+                    Description = "José Carlos",
+                    PLevel = 2,
+                    BirthYear = 1994,
+                    AdmissionYear = 2013,
+                    LastProgressionYear = 2016
+                },
+                new Employee
+                {
+                    Id = 7,
+                    Description = "Felipe",
+                    PLevel = 3,
+                    BirthYear = 1976,
+                    AdmissionYear = 2018,
+                    LastProgressionYear = 2018
+                }
+
+            };
+            return employeers;
         }
     }
 }

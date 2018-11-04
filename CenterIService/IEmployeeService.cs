@@ -7,5 +7,6 @@ namespace CenterIService
     {
         List<Employee> GetEmployeeInCompany(int company);
         List<Employee> BubbleSort(List<Employee> employees);
+        List<Employee> GetEmployees();
     }
 }
