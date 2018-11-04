@@ -5,15 +5,14 @@ using System.Collections.Generic;
 
 namespace CentralServices
 {
-    public class CompanyService : Service<Company>
+    public class CompanyService
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly EmployeeService _employeeService;
         private Employee Employee { get; set; }
 
-        public CompanyService(IEmployeeService employeeService
-                               , IBaseRepository<Company> repository) : base(repository)
+        public CompanyService()
         {
-            _employeeService = employeeService;
+            _employeeService = new EmployeeService();
         }
 
         public List<Employee> GetProgressEmployee(int quantityProgress, int company)

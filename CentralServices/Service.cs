@@ -1,5 +1,6 @@
 ﻿using CenterIRepository;
 using CenterIService;
+using CenterRepository;
 using System;
 using System.Collections.Generic;
 
@@ -7,9 +8,9 @@ namespace CentralServices
 {
     public class Service<T> : IDisposable, IService<T> where T : class
     {
-        private readonly IBaseRepository<T> _repository;
+        private readonly BaseRepository<T> _repository;
 
-        public Service(IBaseRepository<T> repository)
+        public Service(BaseRepository<T> repository)
         {
             _repository = repository;
         }

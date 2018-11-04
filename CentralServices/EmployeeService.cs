@@ -1,37 +1,49 @@
 ﻿using CenterEntities;
 using CenterIRepository;
 using CenterIService;
+using CenterRepository;
 using System;
 using System.Collections.Generic;
 
 namespace CentralServices
 {   
-    public class EmployeeService : Service<Employee>
+    public class EmployeeService
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly EmployeeRepository _employeeRepository;
         private Employee _employee;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IBaseRepository<Employee> repository) : base(repository) => _employeeRepository = employeeRepository;
-        
+        public EmployeeService(IEmployeeRepository employeeRepository, IBaseRepository<Employee> repository)  => _employeeRepository = new EmployeeRepository(); //employeeRepository;
+
+        public EmployeeService()
+        {
+            _employeeRepository = new EmployeeRepository();
+        }
+
         public List<Employee> Progression(List<Employee> employees, int quantityProgresso)
         {
             List<Employee> employeesProgress = BubbleSort(employees);
             List<Employee> employeesProgressValids = new List<Employee>();
-            if (employeesProgress.Count <= quantityProgresso)
+            if (employeesProgress.Count > quantityProgresso)
             {
                 for (int i = 0, count = quantityProgresso; i < count; i++)
                 {
                     _employee = employeesProgress[i];
+                    employeesProgress.Remove(employeesProgress[i]);
                     if (GetIsTimeInCompanyMin())
                     {
                         employeesProgressValids.Add(_employee);
                     }
                 }
+                foreach (var item in employeesProgressValids)
+                {
+                    employeesProgress.Add(item);
+                }
             }else
             {
                 //Valida que a quantidade de pessoas que querem promover não tem disponivel para a quantidade de funcionarios aptos a promoção.
             }
-            return employeesProgressValids;
+            employees = employeesProgress;
+            return employees;
         }
 
         public List<Employee> GetEmployeeInCompany(int company)
@@ -107,9 +119,16 @@ namespace CentralServices
             return GetIsTimeValideCompany() > 1;
         }
 
-        public static List<Employee> GetEmployees()
+        public List<Employee> GetEmployees()
         {
-            List<Employee> employeers = new List<Employee>()
+            List<Employee> employeers;
+            if (_employeeRepository != null)
+            {
+                employeers = _employeeRepository.GetEmployeesByFile();
+            }
+            else
+            {
+                employeers = new List<Employee>()
             {
                 new Employee
                 {
@@ -176,6 +195,7 @@ namespace CentralServices
                 }
 
             };
+            }
             return employeers;
         }
     }

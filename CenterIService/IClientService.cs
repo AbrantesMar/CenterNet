@@ -5,6 +5,8 @@ namespace CenterIService
 {
     public interface IClientService : IService<Client>
     {
-        List<Employee> GetEmployees();
+        void FormulateTime(List<Client> clientes);
+        void MergeRevert(List<Client> clients);
+        List<Client> GetClientByFile();
     }
 }

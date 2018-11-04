@@ -1,0 +1,3 @@
+﻿Cliente 1,3 
+Cliente 2,5 
+Cliente 3,7

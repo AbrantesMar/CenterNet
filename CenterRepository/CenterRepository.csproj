@@ -56,5 +56,9 @@
       <Name>CenterIRepository</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="carga\employees.txt" />
+    <Content Include="carga\team.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
