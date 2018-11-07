@@ -120,16 +120,11 @@ namespace CenterApplicationTest
                 Console.WriteLine("|  Erro ao acessar dados, favor entrar em contato com o suporte.               |");
                 Console.WriteLine("|  \\o Cadastra uma issuer relatando o que ouve com você:                       |");
                 Console.WriteLine(@"|  link: https://github.com/AbrantesMar/CenterNet/issues                       |");
-                Console.WriteLine("|  Clica 1 que volta para o menu. Vamos tentar novamente ;) obrigado.           |");
+                Console.WriteLine("|  Aperte enter para sair voltar ao menu de opções                             |");
                 Console.WriteLine("'------------------------------------------------------------------------------'");
-                int acessarmenu = 0;
-                acessarmenu = Convert.ToInt32(Console.ReadLine());
-                if (acessarmenu == 1)
-                {
-                    Console.Clear();
-                    Main(new string[0]);
-                }
                 Console.ReadLine();
+                Console.Clear();
+                
             }
             finally
             {
